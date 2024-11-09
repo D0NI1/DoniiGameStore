@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+      padding: 10px;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .category-select, .difficulty-select {
+      margin-bottom: 20px;
+    }
+
+    select, button {
+      padding: 10px;
+      font-size: 1.2em;
+      border-radius: 5px;
+      border: 2px solid #3498db;
+      margin: 5px;
+      background-color: #ecf0f1;
+    }
+
+    select, button:hover {
+      background-color: #3498db;
+      color: white;
+      border-color: #2980b9;
+    }
+
+    .question-container {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+
+    .answers {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    .answer {
+      background-color: #3498db;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .answer:hover {
+      background-color: #2980b9;
+    }
+
+    .answer.selected {
+      background-color: #2ecc71;
+    }
+
+    .timer, .score, .progress {
+      font-size: 1.2em;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background-color: #ecf0f1;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background-color: #3498db;
+      border-radius: 5px;
+    }
+
+    .game-over {
+      font-size: 2em;
+      margin-top: 20px;
+      color: #e74c3c;
+    }
+
+    #game {
+      display: none;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Quiz Game</h1>
+  
+  <div class="category-select">
+    <label for="category">Select Category:</label>
+    <select id="category">
+      <option value="9">General Knowledge</option>
+      <option value="22">Geography</option>
+      <option value="17">Science: Computers</option>
+      <option value="21">Sports</option>
+      <option value="19">Science: Gadgets</option>
+      <option value="23">History</option>
+      <option value="18">Science: Nature</option>
+      <option value="11">Entertainment: Video Games</option>
+      <option value="10">Books</option>
+      <option value="12">Movies</option>
+      <option value="15">Music</option>
+      <option value="29">Politics</option>
+      <option value="27">Animals</option>
+      <option value="24">Art</option>
+    </select>
+  </div>
+
+  <div class="difficulty-select">
+    <label for="difficulty">Select Difficulty:</label>
+    <select id="difficulty">
+      <option value="easy">Easy</option>
+      <option value="medium">Medium</option>
+      <option value="hard">Hard</option>
+    </select>
+  </div>
+
+  <button id="start-game">Start Game</button>
+
+  <div id="game">
+    <div class="question-container">
+      <span id="question"></span>
+      <div id="timer" class="timer">30</div>
+    </div>
+
+    <ul id="answers" class="answers">
+      <!-- Answer options will be inserted here -->
+    </ul>
+
+    <div class="progress-bar">
+      <div id="progress-fill" class="progress-bar-fill"></div>
+    </div>
+
+    <div class="score">
+      Score: <span id="score">0</span>
+    </div>
+
+  </div>
+
+  <div id="game-over" class="game-over"></div>
+
+  <script>
+    const startButton = document.getElementById('start-game');
+    const gameDiv = document.getElementById('game');
+    const questionElement = document.getElementById('question');
+    const answersElement = document.getElementById('answers');
+    const timerElement = document.getElementById('timer');
+    const scoreElement = document.getElementById('score');
+    const progressFill = document.getElementById('progress-fill');
+    const gameOverElement = document.getElementById('game-over');
+    const categorySelect = document.getElementById('category');
+    const difficultySelect = document.getElementById('difficulty');
+
+    let score = 0;
+    let currentQuestionIndex = 0;
+    let timer = 30;
+    let questionData = [];
+    let gameInterval;
+    let progressInterval;
+
+    // API URL
+    const API_URL = 'https://opentdb.com/api.php?amount=25&type=multiple';
+
+    // Fetch questions from the API
+    async function fetchQuestions() {
+      const category = categorySelect.value;
+      const difficulty = difficultySelect.value;
+
+      const url = `${API_URL}&category=${category}&difficulty=${difficulty}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      questionData = data.results;
+      shuffleArray(questionData);
+      startGame();
+    }
+
+    // Start game function
+    function startGame() {
+      score = 0;
+      currentQuestionIndex = 0;
+      gameDiv.style.display = 'block';
+      startButton.style.display = 'none';
+      gameOverElement.style.display = 'none';
+      scoreElement.textContent = score;
+      loadQuestion();
+      startTimer();
+      startProgressBar();
+    }
+
+    // Load the next question
+    function loadQuestion() {
+      if (currentQuestionIndex < questionData.length) {
+        const question = questionData[currentQuestionIndex];
+        questionElement.textContent = question.question;
+        answersElement.innerHTML = '';
+
+        const answers = [...question.incorrect_answers, question.correct_answer];
+        shuffleArray(answers);
+
+        answers.forEach(answer => {
+          const li = document.createElement('li');
+          li.classList.add('answer');
+          li.textContent = answer;
+          li.addEventListener('click', () => checkAnswer(answer, question.correct_answer));
+          answersElement.appendChild(li);
+        });
+      } else {
+        endGame();
+      }
+    }
+
+    // Shuffle answers to randomize them
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    // Check if the answer is correct
+    function checkAnswer(selectedAnswer, correctAnswer) {
+      if (selectedAnswer === correctAnswer) {
+        score++;
+        scoreElement.textContent = score;
+      }
+      currentQuestionIndex++;
+      loadQuestion();
+    }
+
+    // Timer function
+    function startTimer() {
+      gameInterval = setInterval(() => {
+        timer--;
+        timerElement.textContent = timer;
+
+        if (timer === 0) {
+          clearInterval(gameInterval);
+          currentQuestionIndex++;
+          loadQuestion();
+        }
+      }, 1000);
+    }
+
+    // Progress bar function
+    function startProgressBar() {
+      let progress = 0;
+      progressInterval = setInterval(() => {
+        progress += 100 / questionData.length;
+        progressFill.style.width = `${progress}%`;
+
+        if (progress >= 100) {
+          clearInterval(progressInterval);
+        }
+      }, 1000);
+    }
+
+    // End game function
+    function endGame() {
+      gameOverElement.textContent = `Game over! Your score is ${score}`;
+      gameOverElement.style.display = 'block';
+      startButton.style.display = 'block';
+      gameDiv.style.display = 'none';
+    }
+
+    // Event listener for the start button
+    startButton.addEventListener('click', fetchQuestions);
+  </script>
+
+</body>
+</html>

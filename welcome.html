@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #2b2b2b, #0c0c0c);
+      color: #fff;
+    }
+
+    .welcome-container {
+      text-align: center;
+      padding: 3em;
+      background: rgba(25, 25, 25, 0.95);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 400px;
+      border: 2px solid rgba(0, 183, 255, 0.3);
+    }
+
+    .welcome-container h2 {
+      font-size: 28px;
+      color: #0ef;
+      letter-spacing: 2px;
+      margin-bottom: 1em;
+    }
+
+    .welcome-container p {
+      font-size: 18px;
+      color: #aaa;
+      margin-bottom: 2em;
+      line-height: 1.5;
+    }
+
+    .welcome-container button {
+      padding: 12px 25px;
+      font-size: 18px;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #06c, #0ef);
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 183, 255, 0.4);
+      transition: transform 0.2s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .welcome-container button:hover {
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-container">
+    <h2>Thanks for Signing Up!</h2>
+    <p>Please click the button below to log in and get started.</p>
+    <button onclick="redirectToLogin()">Go to Login</button>
+  </div>
+
+  <script>
+    function redirectToLogin() {
+      window.location.href = "index.html"; // Redirects to the login page
+    }
+  </script>
+</body>
+</html>

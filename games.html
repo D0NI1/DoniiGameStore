@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Portal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        header {
+            background-color: #242424;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-family: 'Orbitron', sans-serif;
+            color: #00aaff;
+        }
+
+        .nav-bar {
+            background-color: #111;
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-bar a {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-bar a:hover {
+            background-color: #555;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 40px 0;
+        }
+
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .game-item {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .game-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .game-item h2 {
+            padding: 15px;
+            font-size: 1.2rem;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .game-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            background-color: #242424;
+            padding: 10px;
+            color: white;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: #00aaff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .game-container {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Game Portal</h1>
+    </header>
+
+    <div class="nav-bar">      
+        <a href="#">Games</a>
+        <a href="#">Profile</a>
+    </div>
+
+    <div class="content">
+        <h2>Select a Game to Play</h2>
+        <div class="game-container">
+            <!-- Game 1 -->
+            <div class="game-item" onclick="Game1()">
+                <img src="https://cdn-icons-png.flaticon.com/512/5791/5791753.png" alt="Tic-Tac-Toe">
+                <h2>Tic-Tac-Toe</h2>
+            </div>
+            <!-- Game 2 -->
+            <div class="game-item" onclick="Game2()">
+                <img src="https://i.pinimg.com/originals/79/34/c6/7934c6cf66ceade7c2986687946067b2.jpg" alt="Rock-Paper-Scissors">
+                <h2>Rock-Paper-Scissors</h2>
+            </div>
+            <!-- Game 3 -->
+            <div class="game-item" onclick="Game3()">
+                <img src="https://cdn6.aptoide.com/imgs/1/d/b/1db419d803f691e07642bbccf5cb5189_icon.png" alt="Guess the Word">
+                <h2>Guess the Word</h2>
+            </div>
+            <!-- Game 4 -->
+            <div class="game-item" onclick="Game4()">
+                <img src="https://demonisblack.com/code/bundle/introduction/assets/img/games/guessnumber.png" alt="Guess the Number">
+                <h2>Guess the Number</h2>
+            </div>
+            <!-- Game 5 -->
+            <div class="game-item" onclick="Game5()">
+                <img src="https://static.thenounproject.com/png/4545700-200.png" alt="Memory Card Game">
+                <h2>Memory Card Game</h2>
+            </div>
+            <!-- Game 6 -->
+            <div class="game-item" onclick="Game6()">
+                <img src="https://w1.pngwing.com/pngs/138/573/png-transparent-simon-area-game-simon-says-smile-smiley-circle-symbol-thumbnail.png" alt="Simon Says">
+                <h2>Simon Says</h2>
+            </div>
+            <!-- Game 7 -->
+            <div class="game-item" onclick="Game7()">
+                <img src="https://static.vecteezy.com/system/resources/previews/009/742/591/non_2x/quiz-game-icon-outline-illustration-vector.jpg" alt="Quiz">
+                <h2>Quiz</h2>
+            </div>
+            <!-- Game 8 -->
+            <div class="game-item" onclick="Game8()">
+                <img src="https://static.thenounproject.com/png/5446453-200.png" alt="AI Reader Game">
+                <h2>AI Reader Game</h2>
+            </div>
+            <!-- Game 9 -->
+            <div class="game-item" onclick="Game9()">
+                <img src="https://static.vecteezy.com/system/resources/previews/003/529/153/non_2x/business-to-do-list-flat-icon-modern-style-vector.jpg" alt="To-Do List">
+                <h2>To-Do List</h2>
+            </div>
+            <!-- Game 10 -->
+            <div class="game-item" onclick="Game10()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Google_Feud_Logo_%282016-present%29.png/220px-Google_Feud_Logo_%282016-present%29.png" alt="Google Feud Trivia">
+                <h2>Google Feud Trivia</h2>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Game Portal. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+    <script>
+        function Game1() {
+            window.location.href = 'https://d0ni1.github.io/Tic-Tac-Toe-Project/';
+        }
+
+        function Game2() {
+            window.location.href = 'Game2.html';
+        }
+
+        function Game3() {
+            window.location.href = 'Game3.html';
+        }
+
+        function Game4() {
+            window.location.href = 'Game4.html';
+        }
+
+        function Game5() {
+            window.location.href = 'Game5.html';
+        }
+
+        function Game6() {
+            window.location.href = 'Game6.html';
+        }
+
+        function Game7() {
+            window.location.href = 'Game7.html';
+        }
+
+        function Game8() {
+            window.location.href = 'Game8.html';
+        }
+
+        function Game9() {
+            window.location.href = 'Game9.html';
+        }
+
+        function Game10() {
+            window.location.href = 'Game10.html';
+        }
+    </script>
+</body>
+</html>
